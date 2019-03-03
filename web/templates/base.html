@@ -309,7 +309,7 @@
 
 {% block pre-content %}
 {% endblock pre-content %}
-<div id="wrapper" class="container">
+<div class='shell'>
     <!-- Static navbar -->
     <div class="row navbar navbar-default" role="navigation">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -330,7 +330,7 @@
                 alt="{% trans "Choose Random" %}"/>
             </a>
         </div>
-
+    
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="side-collapse in">
             <div class="navbar-collapse navbar-right">
@@ -344,12 +344,12 @@
                         {% else %}
                             <a id="login-dropdown-link" href="{% url 'login' %}">
                                 <span class="fa fa-user"></span>
-                                {% trans "Log in" %}
+                                {% trans "Log in2" %}
                             </a>
                         {% endif %}
                         <li class="nav-divider"></li>
                     </li>
-
+    
                     {% if user.is_authenticated %}
                         <li>
                         <a id="favourites" href="#" data-toggle="collapse" data-target="#favourites-panel">
@@ -357,7 +357,7 @@
                             {% trans "favourites" %}
                         </a>
                         </li>
-
+    
                         <!-- Shared draw options -->
                         <li class="nav-divider visible-xs"></li>
                         <li class="visible-xs">
@@ -368,7 +368,7 @@
                         </li>
                     {% endif %}
                     </li>
-
+    
                     {% if user.is_authenticated %}
                         <li id="account-dropdown" class="hidden-xs dropdown">
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -388,9 +388,9 @@
                                             </div>
                                             <div class="col-lg-8">
                                                 <p class="text-left"><strong>{{ user.alias }}</strong></p>
-
+    
                                                 <p class="text-left small"> {{user.email}}</p>
-
+    
                                                 <p class="text-left">
                                                 <a href="{% url 'profile' %}" class="btn btn-primary btn-block btn-sm">{%trans 'My profile'%}</a>
                                                 </p>
@@ -415,7 +415,7 @@
                         </li>
                     {% else %}
                         <li id="login-dropdown" class="hidden-xs dropdown">
-                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            <a href="#" class="dropdown-toggle login-option" data-toggle="dropdown">
                                 <span class="fa fa-user" aria-hidden="true"></span> {% trans "Log in" %}<b class="caret"></b>
                             </a>
                             <!-- Login panel -->
@@ -470,61 +470,64 @@
             </div>
         </div>
     </div>
-
-    <div id="site-frame" class="col-sm-10 col-md-10 col-lg-8 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
-        {% if user.is_authenticated and not is_shared %}
-            <div id="favourites-panel" class="row collapse">
-                <div class="col-xs-12">
-                    <span id="close-favourites" class="pull-right fa fa-close" data-toggle="collapse" data-target="#favourites-panel"></span>
-                    <p class="h2">{% trans "Favourites" %}</p>
-                    <ul>
-                        {% for d in user.favourites_list %}
-                            <a href="{% url 'retrieve_draw' draw_id=d.pk %}"><li>{{ d.title }} | {{d.creation_time|date:" Y/m/d G:i:s "}}</li></a>
-                            {% empty %}
-                               <span id="favourites-empty"> {% trans "You don't have favourite draws" %} </span>
-                        {% endfor %}
-                    </ul>
+    <div id="wrapper" class="container">
+    
+        <div id="site-frame" class="col-sm-10 col-md-10 col-lg-8 col-lg-offset-2 col-md-offset-1 col-sm-offset-1">
+            {% if user.is_authenticated and not is_shared %}
+                <div id="favourites-panel" class="row collapse">
+                    <div class="col-xs-12">
+                        <span id="close-favourites" class="pull-right fa fa-close" data-toggle="collapse" data-target="#favourites-panel"></span>
+                        <p class="h2">{% trans "Favourites" %}</p>
+                        <ul>
+                            {% for d in user.favourites_list %}
+                                <a href="{% url 'retrieve_draw' draw_id=d.pk %}"><li>{{ d.title }} | {{d.creation_time|date:" Y/m/d G:i:s "}}</li></a>
+                                {% empty %}
+                                   <span id="favourites-empty"> {% trans "You don't have favourite draws" %} </span>
+                            {% endfor %}
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        {% endif %}
-
-        {% block content %}
-            <p>Page to be filled.</p>
-        {% endblock content %}
-    </div>
-    <div id="footer">
-        <div class="col-lg-8 col-lg-offset-2">
-            <div class="col-xs-7 col-sm-4 col-md-5 text-left">
-                © 2016 EchaloASuerte
-            </div>
-            <div class="hidden-xs col-sm-3 col-md-2">
-                <a href="{% url 'about' %}">{% trans "About us" %}</a>
-            </div>
-            <!-- Language dropdown menu for SM, MD and LG -->
-            <div id="change-language-link" class="hidden-xs col-sm-5 text-right">
-                {%trans 'Choose language'%}:
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                    <span class="fa fa-flag"></span>
-                    {{ LANGUAGE_CODE|language_name }} ▾
-                </a>
-                <ul id="language-dropdown" class="dropdown-menu pull-right drop-up" role="menu">
-                    <li><a href="//chooserandom.com" > {% trans 'English' %}</a></li>
-                    <li><a href="//echaloasuerte.com" > {% trans 'Spanish' %}</a></li>
-                </ul>
-            </div>
-            <!-- Language dropdown menu for XS -->
-            <div class="visible-xs col-xs-5 text-right">
-            <form action="#">
-                <select id="language-selector" name="language" onchange="location = this.options[this.selectedIndex].value;">
-                    <option {% if 'en' == LANGUAGE_CODE %}selected="selected"{%endif%} value="//chooserandom.com" > {% trans 'English' %}</option>
-                    <option {% if 'es' == LANGUAGE_CODE %}SELECTED="selected"{%endif%} value="//echaloasuerte.com"> {% trans 'Spanish' %}</option>
-                </select>
-            </form>
-            </div>
-
+            {% endif %}
+    
+            {% block content %}
+                <p>Page to be filled.</p>
+            {% endblock content %}
         </div>
-    </div><!-- #footer -->
-</div>
+    </div>
+            <div id="footer">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div class="col-xs-7 col-sm-4 col-md-5 text-left">
+                        © 2019 EchaloASuerte
+                    </div>
+                    <div class="hidden-xs col-sm-3 col-md-2">
+                        <a href="{% url 'about' %}">{% trans "About us" %}</a>
+                    </div>
+                    <!-- Language dropdown menu for SM, MD and LG -->
+                    <div id="change-language-link" class="hidden-xs col-sm-5 text-right">
+                        {%trans 'Choose language'%}:
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            <span class="fa fa-flag"></span>
+                            {{ LANGUAGE_CODE|language_name }} ▾
+                        </a>
+                        <ul id="language-dropdown" class="dropdown-menu pull-right drop-up" role="menu">
+                            <li><a href="//chooserandom.com" > {% trans 'English' %}</a></li>
+                            <li><a href="//echaloasuerte.com" > {% trans 'Spanish' %}</a></li>
+                        </ul>
+                    </div>
+                    <!-- Language dropdown menu for XS -->
+                    <div class="visible-xs col-xs-5 text-right">
+                    <form action="#">
+                        <select id="language-selector" name="language" onchange="location = this.options[this.selectedIndex].value;">
+                            <option {% if 'en' == LANGUAGE_CODE %}selected="selected"{%endif%} value="//chooserandom.com" > {% trans 'English' %}</option>
+                            <option {% if 'es' == LANGUAGE_CODE %}SELECTED="selected"{%endif%} value="//echaloasuerte.com"> {% trans 'Spanish' %}</option>
+                        </select>
+                    </form>
+                    </div>
+        
+                </div>
+            </div><!-- #footer -->
+    
+
 <!-- end container -->
 <div id="column-left" class="lateral-column">
     {% block left_column %}
@@ -548,6 +551,7 @@
 <div id="column-right" class="lateral-column">
     {% block right_column %}
     {% endblock right_column %}
+</div>
 </div>
 
 <!-- Suggestion box modal -->
